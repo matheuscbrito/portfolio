@@ -8,8 +8,14 @@ const EMAIL = "matheus.cavalcanti006@gmail.com";
 
 const sections: NavItem[] = [
   { id: "sobre", label: "Sobre" },
-  { id: "no-foco", label: "No Foco" },
-  { id: "projetos", label: "Projetos" },
+  {
+    label: "Projetos",
+    children: [
+      { id: "no-foco", label: "No Foco" },
+      { id: "aria", label: "ARIA" },
+      { id: "previsao-demanda", label: "Previsão de demanda" },
+    ],
+  },
   { id: "historico", label: "Histórico" },
   { id: "contato", label: "Contato" },
 ];
@@ -18,7 +24,8 @@ const sections: NavItem[] = [
 const tones: Record<string, Tone> = {
   sobre: "light",
   "no-foco": "mist",
-  projetos: "dark",
+  aria: "dark",
+  "previsao-demanda": "mist",
   historico: "light",
   contato: "dark",
 };
@@ -96,12 +103,12 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <RisingLayer tone={tones[id]} last={id === sections.at(-1)?.id}>
-      {/* Right padding keeps content clear of the fixed side nav: its 10rem plus 4rem each side. */}
+    <RisingLayer tone={tones[id]} last={id === Object.keys(tones).at(-1)}>
+      {/* Right padding keeps content clear of the fixed side nav: its 11rem plus 4rem each side. */}
       <section
         id={id}
         aria-label={title ? undefined : label}
-        className="px-6 pt-[20svh] pb-[18svh] sm:px-12 lg:pr-[18rem] lg:pl-16"
+        className="px-6 pt-[20svh] pb-[18svh] sm:px-12 lg:pr-[19rem] lg:pl-16"
       >
         {title && <h2 className="type-title mb-10">{title}</h2>}
         {children}
@@ -226,7 +233,29 @@ export default function Home() {
         </P>
       </Section>
 
-      <Section id="projetos" title="Projetos">
+      <Section id="aria" label="ARIA">
+        <p className="type-title max-w-3xl text-ink">
+          Antes de treinar um modelo, é preciso confiar nos dados.
+        </p>
+        <div className="mt-14">
+          <P>
+            Sou pesquisador de AI no ARIA, uma colaboração com a University of Pennsylvania e a
+            University of Bristol.
+          </P>
+          <P>
+            Modelos de diagnóstico precisam de muitos exames para aprender, e exames de pacientes
+            reais são escassos e sensíveis. Uma saída é gerar mamografias sintéticas com AI. O
+            risco é treinar um modelo com imagens que parecem reais, mas não são.
+          </P>
+          <P>
+            Estou construindo o framework que avalia essas imagens: qualidade, textura e realismo
+            clínico, comparados com exames reais. Só o que passa pode alimentar os modelos que
+            detectam câncer de mama e de pulmão e estimam o risco de cada paciente.
+          </P>
+        </div>
+      </Section>
+
+      <Section id="previsao-demanda" title="Previsão de demanda">
         <P>
           Construí um modelo que prevê a demanda de medicamentos em hospitais a partir do
           histórico de consumo.
@@ -250,7 +279,7 @@ export default function Home() {
       </Section>
 
       {/* The blend sits on this fixed layer, the stacking context that composites over the panels. */}
-      <div className="pointer-events-none fixed inset-y-0 right-16 z-50 hidden w-40 items-center mix-blend-difference lg:flex">
+      <div className="pointer-events-none fixed inset-y-0 right-16 z-50 hidden w-44 items-center mix-blend-difference lg:flex">
         <div className="pointer-events-auto">
           <SectionNav items={sections} />
         </div>
