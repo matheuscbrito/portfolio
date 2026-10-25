@@ -1,3 +1,4 @@
+import { AriaPipeline } from "@/components/aria-pipeline";
 import { GradientBg } from "@/components/gradient-bg";
 import { PredictionCard } from "@/components/prediction-card";
 import { NoFocoSchedule } from "@/components/no-foco-schedule";
@@ -244,15 +245,29 @@ export default function Home() {
           </P>
           <P>
             Modelos de diagnóstico precisam de muitos exames para aprender, e exames de pacientes
-            reais são escassos e sensíveis. Uma saída é gerar mamografias sintéticas com AI. O
-            risco é treinar um modelo com imagens que parecem reais, mas não são.
+            reais são escassos e sensíveis. Uma saída é gerar exames sintéticos com AI, como
+            mamografias e tomografias de pulmão. O risco é treinar um modelo com imagens que
+            parecem reais, mas não são.
           </P>
           <P>
-            Estou construindo o framework que avalia essas imagens: qualidade, textura e realismo
-            clínico, comparados com exames reais. Só o que passa pode alimentar os modelos que
-            detectam câncer de mama e de pulmão e estimam o risco de cada paciente.
+            Minha pesquisa responde a isso em duas partes. A primeira é medir: um framework que
+            compara cada imagem sintética com o exame real e avalia qualidade, textura e realismo
+            clínico.
+          </P>
+          <P>
+            A segunda é melhorar sem perder a confiança. Com essa régua fixa, o gerador de
+            tomografias de pulmão é ajustado num ciclo fechado, sem retreinar nada: cada ajuste
+            gera imagens, passa pelo avaliador e só fica se for melhor.
           </P>
         </div>
+        <div className="my-24">
+          <AriaPipeline />
+        </div>
+        <P>
+          Quem propõe os ajustes pode mudar, de um agente de AI a otimizadores clássicos, mas as
+          regras não. É assim que dá para comparar resultados com honestidade, e só o que se
+          sustenta vai alimentar os modelos que detectam câncer de mama e de pulmão.
+        </P>
       </Section>
 
       <Section id="previsao-demanda" title="Previsão de demanda">
