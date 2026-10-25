@@ -1,5 +1,7 @@
 import { Figure } from "@/components/figure";
 import { GradientBg } from "@/components/gradient-bg";
+import { PredictionCard } from "@/components/prediction-card";
+import { NoFocoDemo } from "@/components/no-foco-demo/no-foco-demo";
 import { RisingLayer } from "@/components/rising-layer";
 import { SectionNav, type NavItem } from "@/components/section-nav";
 
@@ -176,19 +178,27 @@ export default function Home() {
                 Cofundei o No Foco e construí a plataforma do zero, do front-end ao back-end. É
                 onde estudantes se preparam para o ENEM.
               </P>
-              <Figure alt="Imagem: interface do No Foco" />
-              <p className="type-figure">40+</p>
-              <P>alunos pagantes nos primeiros 6 meses.</P>
-              <Figure alt="Imagem: plano de estudos, streaks e rankings" aspect="aspect-[4/3]" />
+              <P>
+                A ideia veio do que funcionou para mim e para meus sócios: um plano claro, alguém
+                acompanhando de perto e um ajuste a cada simulado.
+              </P>
+              <div className="my-24">
+                <NoFocoDemo />
+              </div>
               <P>
                 Construí o planejamento de estudos, o acompanhamento de desempenho, os streaks, os
                 rankings e as métricas de prova.
               </P>
+              <p className="type-figure mt-24">40+</p>
+              <P>alunos pagantes nos primeiros 6 meses.</P>
+              <div className="my-24">
+                <PredictionCard />
+              </div>
               <P>
-                Também treinei e coloquei em produção um modelo de machine learning. Ele usa o
-                histórico de simulados e o comportamento de estudo de cada aluno para prever a nota
-                da próxima prova. O plano de estudos se ajusta a essa previsão e mostra onde ele
-                precisa de mais atenção.
+                Também treinei e coloquei em produção um modelo de machine learning que roda no
+                navegador do aluno. Ele usa o histórico de simulados e o comportamento de estudo
+                para prever a nota do próximo simulado, por área. O plano de estudos se ajusta a
+                essa previsão e mostra onde o aluno precisa de mais atenção.
               </P>
               <P>
                 <A href="https://nofoco.app.br">nofoco.app.br</A>
