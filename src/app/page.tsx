@@ -240,33 +240,19 @@ export default function Home() {
         </p>
         <div className="mt-14">
           <P>
-            Sou pesquisador de AI no ARIA, uma colaboração com a University of Pennsylvania e a
-            University of Bristol.
+            No ARIA, uma colaboração da University of Pennsylvania com a University of Bristol,
+            pesquiso exames gerados por AI. Exames reais são escassos e sensíveis, e os sintéticos
+            ajudam a treinar modelos que detectam câncer, mas só se forem fiéis.
           </P>
-          <P>
-            Modelos de diagnóstico precisam de muitos exames para aprender, e exames de pacientes
-            reais são escassos e sensíveis. Uma saída é gerar exames sintéticos com AI, como
-            mamografias e tomografias de pulmão. O risco é treinar um modelo com imagens que
-            parecem reais, mas não são.
-          </P>
-          <P>
-            Minha pesquisa responde a isso em duas partes. A primeira é medir: um framework que
-            compara cada imagem sintética com o exame real e avalia qualidade, textura e realismo
-            clínico.
-          </P>
-          <P>
-            A segunda é melhorar sem perder a confiança. Com essa régua fixa, o gerador de
-            tomografias de pulmão é ajustado num ciclo fechado, sem retreinar nada: cada ajuste
-            gera imagens, passa pelo avaliador e só fica se for melhor.
-          </P>
+          <P>Por isso construí uma régua para medi-los e um ciclo que a usa para melhorá-los.</P>
         </div>
         <div className="my-24">
           <AriaPipeline />
         </div>
         <P>
-          Quem propõe os ajustes pode mudar, de um agente de AI a otimizadores clássicos, mas as
-          regras não. É assim que dá para comparar resultados com honestidade, e só o que se
-          sustenta vai alimentar os modelos que detectam câncer de mama e de pulmão.
+          A régua compara cada imagem sintética com o exame real em qualidade, textura e realismo
+          clínico, e não muda durante a busca. Assim dá para comparar com honestidade quem propõe os
+          ajustes, e só o que se sustenta vai alimentar os modelos de câncer de mama e de pulmão.
         </P>
       </Section>
 

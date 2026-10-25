@@ -46,7 +46,7 @@ const steps: { title: string; detail: string; kind: Kind; wide?: boolean }[] = [
   },
   {
     title: "Decisão",
-    detail: "o ajuste só fica se superar o melhor até agora",
+    detail: "um agente de AI ou um otimizador guarda o melhor e propõe o próximo ajuste",
     kind: "loop",
     wide: true,
   },
