@@ -1,4 +1,3 @@
-import { Figure } from "@/components/figure";
 import { GradientBg } from "@/components/gradient-bg";
 import { PredictionCard } from "@/components/prediction-card";
 import { NoFocoDemo } from "@/components/no-foco-demo/no-foco-demo";
@@ -12,7 +11,6 @@ const sections: NavItem[] = [
   { id: "no-foco", label: "No Foco" },
   { id: "projetos", label: "Projetos" },
   { id: "historico", label: "Histórico" },
-  { id: "fora-da-tela", label: "Fora da tela" },
   { id: "contato", label: "Contato" },
 ];
 
@@ -22,7 +20,6 @@ const tones: Record<string, Tone> = {
   "no-foco": "mist",
   projetos: "dark",
   historico: "light",
-  "fora-da-tela": "mist",
   contato: "dark",
 };
 
@@ -33,11 +30,11 @@ const history: { year: string; items: { what: string; text: string }[] }[] = [
     items: [
       {
         what: "Synapse",
-        text: "Cofundei uma plataforma para ensinar programação na era da IA. Desenho os algoritmos que ajustam dificuldade, ordem dos tópicos e ritmo de cada aluno em tempo real.",
+        text: "Cofundei uma plataforma para ensinar programação na era da AI. Desenho os algoritmos que ajustam dificuldade, ordem dos tópicos e ritmo de cada aluno em tempo real.",
       },
       {
         what: "ARIA",
-        text: "Comecei a pesquisar IA para detecção de câncer de mama e de pulmão, com a University of Pennsylvania e a University of Bristol. Construo o framework que avalia mamografias sintéticas antes de elas treinarem modelos de diagnóstico.",
+        text: "Comecei a pesquisar AI para detecção de câncer de mama e de pulmão, com a University of Pennsylvania e a University of Bristol. Construo o framework que avalia mamografias sintéticas antes de elas treinarem modelos de diagnóstico.",
       },
       {
         what: "Trilha e Momento",
@@ -130,6 +127,19 @@ function A({ href, children }: { href: string; children: React.ReactNode }) {
   );
 }
 
+/** Where to reach me: email, then profiles, on one line that wraps on small screens. */
+function Links({ className = "" }: { className?: string }) {
+  return (
+    <p className={`type-lead flex flex-wrap items-center gap-x-3 gap-y-2 ${className}`}>
+      <A href={`mailto:${EMAIL}`}>{EMAIL}</A>
+      <span className="text-ink/20" aria-hidden="true">/</span>
+      <A href="https://www.linkedin.com/in/matheuscbrito">LinkedIn</A>
+      <span className="text-ink/20" aria-hidden="true">/</span>
+      <A href="https://github.com/matheuscbrito">GitHub</A>
+    </p>
+  );
+}
+
 function History() {
   return (
     <dl className="type-body max-w-2xl divide-y divide-rule border-y border-rule">
@@ -163,29 +173,25 @@ export default function Home() {
 
       <Section id="sobre" label="Sobre">
         <p className="type-title max-w-3xl text-ink">
-          Acredito que pessoas comuns conseguem construir coisas extraordinárias.
+          Acredito que pessoas comuns podem construir coisas extraordinárias.
         </p>
         <div className="mt-14">
           <P>
-            E me anima muito o quanto a IA deixa isso mais perto de qualquer um. Quero
-            construir coisas que pessoas de verdade usam e que mudam algo na vida delas.
+            E estou fazendo isso a partir de AI. Comecei fundando a No Foco, uma
+            assessoria pra Enem que já impactou mais de 40 pessoas e 6 assessores pelo Brasil.
+            Agora tô construindo AI pra Medicina, ajudando a identificar risco de câncer de mama e de pulmão.
           </P>
           <P>
-            Comecei pelo No Foco, uma plataforma de preparação para o ENEM que construí do
-            zero e que já tem mais de 40 alunos pagantes. Hoje também pesquiso IA para
-            detecção de câncer de mama e de pulmão, e estou cofundando a Synapse.
+            Estudo Ciência da Computação na UFPB. Jogo vôlei e toco bossa nova com bastante frequência no violão.
           </P>
-          <P>
-            Estudo Ciência da Computação na UFPB. Gosto de times pequenos, no começo, onde dá
-            para construir do zero. Se você está construindo algo assim, me escreve:{" "}
-            <A href={`mailto:${EMAIL}`}>{EMAIL}</A>
-          </P>
+          <P>Se quiser conversar, me chama.</P>
+          <Links className="mt-4" />
         </div>
       </Section>
 
       <Section id="no-foco" title="No Foco">
         <P>
-          Cofundei o No Foco e construí a plataforma do zero, do front-end ao back-end. É
+          Cofundei a No Foco e construí a plataforma do zero, do front-end ao back-end. É
           onde estudantes se preparam para o ENEM.
         </P>
         <P>
@@ -234,26 +240,8 @@ export default function Home() {
         <History />
       </Section>
 
-      <Section id="fora-da-tela" title="Fora da tela">
-        <P>
-          Já joguei vários campeonatos de vôlei, toquei violino e treinei tênis de mesa. Hoje
-          o que não larga é o violão, e se for bossa nova, melhor ainda.
-        </P>
-        <div className="mt-16 grid max-w-4xl gap-6 sm:grid-cols-2">
-          <Figure alt="Foto 1" aspect="aspect-[4/5]" className="" />
-          <Figure alt="Foto 2" aspect="aspect-[4/5]" className="" />
-        </div>
-      </Section>
-
       <Section id="contato" title="Contato">
-        <P>
-          <A href={`mailto:${EMAIL}`}>{EMAIL}</A>
-        </P>
-        <P>
-          <A href="https://github.com/matheuscbrito">GitHub</A>
-          <span className="mx-3 text-ink/20">/</span>
-          <A href="https://www.linkedin.com/in/matheuscbrito">LinkedIn</A>
-        </P>
+        <Links />
       </Section>
 
       {/* The blend sits on this fixed layer, the stacking context that composites over the panels. */}
