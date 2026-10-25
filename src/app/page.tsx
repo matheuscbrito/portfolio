@@ -1,6 +1,6 @@
 import { GradientBg } from "@/components/gradient-bg";
 import { PredictionCard } from "@/components/prediction-card";
-import { NoFocoDemo } from "@/components/no-foco-demo/no-foco-demo";
+import { NoFocoSchedule } from "@/components/no-foco-schedule";
 import { RisingLayer, type Tone } from "@/components/rising-layer";
 import { SectionNav, type NavItem } from "@/components/section-nav";
 
@@ -182,24 +182,29 @@ export default function Home() {
             Agora tô construindo AI pra Medicina, ajudando a identificar risco de câncer de mama e de pulmão.
           </P>
           <P>
-            Estudo Ciência da Computação na UFPB. Jogo vôlei e toco bossa nova com bastante frequência no violão.
+            Estudo Ciência da Computação na UFPB e toco bossa nova no violão.
           </P>
-          <P>Se quiser conversar, me chama.</P>
+          <P>Se quiser conversar, me chama:</P>
           <Links className="mt-4" />
         </div>
       </Section>
 
-      <Section id="no-foco" title="No Foco">
-        <P>
-          Cofundei a No Foco e construí a plataforma do zero, do front-end ao back-end. É
-          onde estudantes se preparam para o ENEM.
-        </P>
-        <P>
-          A ideia veio do que funcionou para mim e para meus sócios: um plano claro, alguém
-          acompanhando de perto e um ajuste a cada simulado.
-        </P>
+      <Section id="no-foco" label="No Foco">
+        <p className="type-title max-w-3xl text-ink">Impactei primeiro meu círculo social.</p>
+        <div className="mt-14">
+          <P>
+            Estudei numa escola muito boa e achava que isso bastava para entrar nas universidades
+            mais concorridas do Brasil. Não bastava. Tinha gente muito boa lá a um passo da
+            aprovação, e o que faltava era um acompanhamento de verdade, de alta performance, para
+            o ENEM.
+          </P>
+          <P>
+            Percebi que era um problema grande o suficiente para as pessoas pagarem por ele. Então
+            cofundei a No Foco e construí a plataforma do zero, do front-end ao back-end.
+          </P>
+        </div>
         <div className="my-24">
-          <NoFocoDemo />
+          <NoFocoSchedule />
         </div>
         <P>
           Construí o planejamento de estudos, o acompanhamento de desempenho, os streaks, os
