@@ -1,0 +1,96 @@
+@import "tailwindcss";
+
+/* Design tokens. Light page, light-blue hero. */
+:root {
+  --paper: #f6f4ef;
+  --ink: #1a1915;
+  --ink-soft: #5c5a52;
+  --rule: #dcd8cd;
+  --accent: #2f4a3a;
+  --night: #0e0f0d;
+
+  --ease-out-slow: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-rule: var(--rule);
+  --color-accent: var(--accent);
+  --color-night: var(--night);
+
+  /* Serif only for titles and display numbers; everything else is sans. */
+  --font-serif: var(--font-newsreader), Georgia, serif;
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+
+  --ease-out-slow: var(--ease-out-slow);
+}
+
+html {
+  background: var(--paper);
+  color: var(--ink);
+  /* @theme inline does not emit --font-sans as a CSS variable, so reference the font directly. */
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-optical-sizing: auto;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--paper);
+}
+
+/*
+ * Type scale. Tracking and leading change with size: large type gets tighter
+ * tracking and leading, small type slightly looser tracking.
+ */
+@utility type-display {
+  font-family: var(--font-newsreader), Georgia, serif;
+  font-size: clamp(3rem, 7vw, 5.5rem);
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+}
+
+@utility type-title {
+  font-family: var(--font-newsreader), Georgia, serif;
+  font-size: clamp(2.5rem, 5vw, 3.75rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+@utility type-figure {
+  font-family: var(--font-newsreader), Georgia, serif;
+  font-size: clamp(5rem, 14vw, 12rem);
+  line-height: 0.9;
+  letter-spacing: -0.035em;
+}
+
+@utility type-lead {
+  font-size: clamp(1.0625rem, 1.2vw, 1.1875rem);
+  line-height: 1.55;
+  letter-spacing: -0.009em;
+}
+
+@utility type-body {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  letter-spacing: -0.003em;
+}
+
+@utility type-small {
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  letter-spacing: 0.006em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
