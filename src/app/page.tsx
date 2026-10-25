@@ -8,68 +8,92 @@ const EMAIL = "matheus.cavalcanti006@gmail.com";
 const sections: NavItem[] = [
   { id: "sobre", label: "Sobre" },
   { id: "no-foco", label: "No Foco" },
-  { id: "trajetoria", label: "Trajetória" },
   { id: "projetos", label: "Projetos" },
-  { id: "formacao", label: "Formação" },
-  { id: "premios", label: "Prêmios" },
+  { id: "historico", label: "Histórico" },
+  { id: "fora-da-tela", label: "Fora da tela" },
   { id: "contato", label: "Contato" },
 ];
 
-const trajectory = [
+/** What I did over time, newest first. */
+const history: { year: string; items: { what: string; text: string }[] }[] = [
   {
-    when: "2026–",
-    what: "Synapse",
-    role: "Cofundador e engenheiro",
-    text: "Uma plataforma para ensinar programação na era da IA. Desenho os algoritmos que ajustam dificuldade, ordem dos tópicos e ritmo de cada aluno em tempo real.",
+    year: "2026",
+    items: [
+      {
+        what: "Synapse",
+        text: "Cofundei uma plataforma para ensinar programação na era da IA. Desenho os algoritmos que ajustam dificuldade, ordem dos tópicos e ritmo de cada aluno em tempo real.",
+      },
+      {
+        what: "ARIA",
+        text: "Comecei a pesquisar IA para detecção de câncer de mama e de pulmão, com a University of Pennsylvania e a University of Bristol. Construo o framework que avalia mamografias sintéticas antes de elas treinarem modelos de diagnóstico.",
+      },
+      {
+        what: "Trilha e Momento",
+        text: "Fui selecionado para duas mentorias. A Trilha, de engenharia de software na UFPB, com engenheiros que passaram por Tako, Sable, Brex, Pax, Telepatia e 11x. E o Momento, que conecta universitários a ex-alunos de Harvard, MIT, Stanford e Berkeley.",
+      },
+      {
+        what: "UFPB",
+        text: "Entrei em 1º lugar em Ciência da Computação.",
+      },
+      {
+        what: "No Foco",
+        text: "Cofundei e construí a plataforma do zero. 40+ alunos pagantes nos primeiros 6 meses.",
+      },
+    ],
   },
   {
-    when: "2026–",
-    what: "ARIA",
-    role: "Pesquisador de IA",
-    text: "Construo um framework para avaliar mamografias sintéticas geradas por IA, para que possam treinar com segurança modelos que detectam câncer de mama e de pulmão. Com a University of Pennsylvania e a University of Bristol.",
+    year: "2024",
+    items: [
+      {
+        what: "Olimpíada Brasileira de Tecnologia",
+        text: "Fui finalista e apresentei meu app de preservação histórica e denúncia urbana para alunos do MIT.",
+      },
+      {
+        what: "Uma calculadora no Minecraft",
+        text: "Construí uma calculadora dentro do jogo que faz contas em binário e converte o resultado para decimal. Eu ainda nem estudava computação.",
+      },
+    ],
   },
   {
-    when: "2026–",
-    what: "No Foco",
-    role: "Cofundador e engenheiro de software",
-    text: "Construí a plataforma do zero, do front-end ao back-end, e o modelo de previsão de desempenho em produção.",
+    year: "2018",
+    items: [
+      { what: "OBI", text: "Bronze na Olimpíada Brasileira de Informática." },
+      {
+        what: "Honrarias",
+        text: "Entre 2016 e 2018, recebi a Comenda José Lins do Rego e dois Votos de Aplauso, da Assembleia Legislativa da Paraíba e da Prefeitura de João Pessoa.",
+      },
+    ],
   },
   {
-    when: "2026–",
-    what: "Trilha",
-    role: "Mentorado em engenharia de software",
-    text: "Mentoria na UFPB com engenheiros que passaram por Tako, Sable, Brex, Pax, Telepatia e 11x.",
-  },
-];
-
-const awards = [
-  {
-    when: "2024",
-    text: "Finalista da Olimpíada Brasileira de Tecnologia. Apresentei meu app de preservação histórica e denúncia urbana para alunos do MIT.",
+    year: "2017",
+    items: [{ what: "Canguru sem Fronteiras", text: "Ouro." }],
   },
   {
-    when: "2016–18",
-    text: "Ouro na Olimpíada Brasileira de Robótica, ouro no Canguru sem Fronteiras e bronze na Olimpíada Brasileira de Informática.",
-  },
-  {
-    when: "2016–18",
-    text: "Comenda José Lins do Rego e dois Votos de Aplauso, da Assembleia Legislativa da Paraíba e da Prefeitura de João Pessoa.",
+    year: "2016",
+    items: [{ what: "OBR", text: "Ouro na Olimpíada Brasileira de Robótica, na modalidade teórica." }],
   },
 ];
 
 function Section({
   id,
   title,
+  label,
   children,
 }: {
   id: string;
-  title: string;
+  /** Without a title the section still needs a name for the nav and screen readers. */
+  title?: string;
+  label?: string;
   children: React.ReactNode;
 }) {
   return (
-    <section id={id} className="scroll-mt-[15svh] py-[18svh] first:pt-[22svh]">
-      <h2 className="type-title">{title}</h2>
-      <div className="mt-10">{children}</div>
+    <section
+      id={id}
+      aria-label={title ? undefined : label}
+      className="scroll-mt-[15svh] py-[18svh] first:pt-[22svh]"
+    >
+      {title && <h2 className="type-title mb-10">{title}</h2>}
+      {children}
     </section>
   );
 }
@@ -91,17 +115,23 @@ function A({ href, children }: { href: string; children: React.ReactNode }) {
   );
 }
 
-/** Dated rows: date in a narrow column, content beside it. */
-function Rows({ children }: { children: React.ReactNode }) {
-  return <dl className="type-body max-w-xl divide-y divide-rule border-y border-rule">{children}</dl>;
-}
-
-function Row({ when, children }: { when: string; children: React.ReactNode }) {
+function History() {
   return (
-    <div className="grid grid-cols-[4.5rem_1fr] gap-6 py-6">
-      <dt className="text-ink/40 tabular-nums">{when}</dt>
-      <dd className="text-ink-soft">{children}</dd>
-    </div>
+    <dl className="type-body max-w-2xl divide-y divide-rule border-y border-rule">
+      {history.map(({ year, items }) => (
+        <div key={year} className="grid grid-cols-[4.5rem_1fr] gap-6 py-8">
+          <dt className="text-ink/40 tabular-nums">{year}</dt>
+          <dd className="space-y-6">
+            {items.map(({ what, text }) => (
+              <div key={what}>
+                <p className="text-ink">{what}</p>
+                <p className="mt-1 text-ink-soft">{text}</p>
+              </div>
+            ))}
+          </dd>
+        </div>
+      ))}
+    </dl>
   );
 }
 
@@ -119,7 +149,7 @@ export default function Home() {
       <RisingLayer>
         <div className="grid gap-x-16 px-6 sm:px-12 lg:grid-cols-[1fr_10rem] lg:px-16">
           <div className="min-w-0">
-            <Section id="sobre" title="Sobre">
+            <Section id="sobre" label="Sobre">
               <p className="type-title max-w-3xl text-ink">
                 Acredito que pessoas comuns conseguem construir coisas extraordinárias.
               </p>
@@ -165,21 +195,6 @@ export default function Home() {
               </P>
             </Section>
 
-            <Section id="trajetoria" title="Trajetória">
-              <Rows>
-                {trajectory.map(({ when, what, role, text }) => (
-                  <Row key={what} when={when}>
-                    <span className="text-ink">{what}</span>
-                    <span className="text-ink/40"> · {role}</span>
-                    <span className="mt-2 block">{text}</span>
-                  </Row>
-                ))}
-              </Rows>
-              <p className="type-body mt-10 max-w-xl text-ink-soft">
-                Trabalho com Python, TypeScript, React, Node.js, PostgreSQL e Google Cloud Run.
-              </p>
-            </Section>
-
             <Section id="projetos" title="Projetos">
               <P>
                 Construí um modelo que prevê a demanda de medicamentos em hospitais a partir do
@@ -190,27 +205,24 @@ export default function Home() {
                 menos gastos que o baseline de hospitais comuns, em ambiente simulado. Menos estoque
                 parado, menos compra emergencial.
               </P>
+              <p className="type-body mt-16 max-w-xl text-ink-soft">
+                Trabalho com Python, TypeScript, React, Node.js, PostgreSQL e Google Cloud Run.
+              </p>
             </Section>
 
-            <Section id="formacao" title="Formação">
-              <P>
-                Entrei em 1º lugar em Ciência da Computação na UFPB, na turma de 2026. Me formo em
-                2029.
-              </P>
-              <P>
-                Também fui selecionado para o Momento, que conecta universitários a ex-alunos de
-                Harvard, MIT, Stanford e Berkeley.
-              </P>
+            <Section id="historico" title="Histórico">
+              <History />
             </Section>
 
-            <Section id="premios" title="Prêmios">
-              <Rows>
-                {awards.map(({ when, text }) => (
-                  <Row key={text} when={when}>
-                    {text}
-                  </Row>
-                ))}
-              </Rows>
+            <Section id="fora-da-tela" title="Fora da tela">
+              <P>
+                Já joguei vários campeonatos de vôlei, toquei violino e treinei tênis de mesa. Hoje
+                o que não larga é o violão, e se for bossa nova, melhor ainda.
+              </P>
+              <div className="mt-16 grid max-w-4xl gap-6 sm:grid-cols-2">
+                <Figure alt="Foto 1" aspect="aspect-[4/5]" className="" />
+                <Figure alt="Foto 2" aspect="aspect-[4/5]" className="" />
+              </div>
             </Section>
 
             <Section id="contato" title="Contato">

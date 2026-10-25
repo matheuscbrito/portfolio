@@ -6,12 +6,14 @@ type FigureProps = {
   alt: string;
   caption?: string;
   aspect?: string;
+  /** Outer spacing; defaults to the gap a standalone image gets in the text flow. */
+  className?: string;
 };
 
 /** Large full-width image. */
-export function Figure({ src, alt, caption, aspect = "aspect-[16/10]" }: FigureProps) {
+export function Figure({ src, alt, caption, aspect = "aspect-[16/10]", className = "my-24" }: FigureProps) {
   return (
-    <figure className="my-24">
+    <figure className={className}>
       <div className={`relative ${aspect} w-full overflow-hidden bg-[#EEF1F5]`}>
         {src ? (
           <Image src={src} alt={alt} fill sizes="(min-width: 1024px) 75vw, 100vw" className="object-cover" />
