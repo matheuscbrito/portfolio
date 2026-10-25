@@ -2,7 +2,7 @@ import { Figure } from "@/components/figure";
 import { GradientBg } from "@/components/gradient-bg";
 import { PredictionCard } from "@/components/prediction-card";
 import { NoFocoDemo } from "@/components/no-foco-demo/no-foco-demo";
-import { RisingLayer } from "@/components/rising-layer";
+import { RisingLayer, type Tone } from "@/components/rising-layer";
 import { SectionNav, type NavItem } from "@/components/section-nav";
 
 const EMAIL = "matheus.cavalcanti006@gmail.com";
@@ -15,6 +15,16 @@ const sections: NavItem[] = [
   { id: "fora-da-tela", label: "Fora da tela" },
   { id: "contato", label: "Contato" },
 ];
+
+/** Each section is a panel in its own tone that rises over the previous one. */
+const tones: Record<string, Tone> = {
+  sobre: "light",
+  "no-foco": "mist",
+  projetos: "dark",
+  historico: "light",
+  "fora-da-tela": "mist",
+  contato: "dark",
+};
 
 /** What I did over time, newest first. */
 const history: { year: string; items: { what: string; text: string }[] }[] = [
@@ -89,14 +99,17 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section
-      id={id}
-      aria-label={title ? undefined : label}
-      className="scroll-mt-[15svh] py-[18svh] first:pt-[22svh]"
-    >
-      {title && <h2 className="type-title mb-10">{title}</h2>}
-      {children}
-    </section>
+    <RisingLayer tone={tones[id]} last={id === sections.at(-1)?.id}>
+      {/* Right padding keeps content clear of the fixed side nav: its 10rem plus 4rem each side. */}
+      <section
+        id={id}
+        aria-label={title ? undefined : label}
+        className="px-6 pt-[20svh] pb-[18svh] sm:px-12 lg:pr-[18rem] lg:pl-16"
+      >
+        {title && <h2 className="type-title mb-10">{title}</h2>}
+        {children}
+      </section>
+    </RisingLayer>
   );
 }
 
@@ -139,7 +152,7 @@ function History() {
 
 export default function Home() {
   return (
-    <main className="flow-root">
+    <main className="flow-root overflow-clip">
       <section className="relative isolate flex min-h-svh flex-col justify-end overflow-hidden bg-[#D6E6F5] px-6 pb-16 sm:px-12 sm:pb-24">
         <GradientBg />
         <div className="relative z-10 max-w-6xl">
@@ -148,112 +161,107 @@ export default function Home() {
         </div>
       </section>
 
-      <RisingLayer>
-        <div className="grid gap-x-16 px-6 sm:px-12 lg:grid-cols-[1fr_10rem] lg:px-16">
-          <div className="min-w-0">
-            <Section id="sobre" label="Sobre">
-              <p className="type-title max-w-3xl text-ink">
-                Acredito que pessoas comuns conseguem construir coisas extraordinárias.
-              </p>
-              <div className="mt-14">
-                <P>
-                  E me anima muito o quanto a IA deixa isso mais perto de qualquer um. Quero
-                  construir coisas que pessoas de verdade usam e que mudam algo na vida delas.
-                </P>
-                <P>
-                  Comecei pelo No Foco, uma plataforma de preparação para o ENEM que construí do
-                  zero e que já tem mais de 40 alunos pagantes. Hoje também pesquiso IA para
-                  detecção de câncer de mama e de pulmão, e estou cofundando a Synapse.
-                </P>
-                <P>
-                  Estudo Ciência da Computação na UFPB. Gosto de times pequenos, no começo, onde dá
-                  para construir do zero. Se você está construindo algo assim, me escreve:{" "}
-                  <A href={`mailto:${EMAIL}`}>{EMAIL}</A>
-                </P>
-              </div>
-            </Section>
-
-            <Section id="no-foco" title="No Foco">
-              <P>
-                Cofundei o No Foco e construí a plataforma do zero, do front-end ao back-end. É
-                onde estudantes se preparam para o ENEM.
-              </P>
-              <P>
-                A ideia veio do que funcionou para mim e para meus sócios: um plano claro, alguém
-                acompanhando de perto e um ajuste a cada simulado.
-              </P>
-              <div className="my-24">
-                <NoFocoDemo />
-              </div>
-              <P>
-                Construí o planejamento de estudos, o acompanhamento de desempenho, os streaks, os
-                rankings e as métricas de prova.
-              </P>
-              <p className="type-figure mt-24">40+</p>
-              <P>alunos pagantes nos primeiros 6 meses.</P>
-              <div className="my-24">
-                <PredictionCard />
-              </div>
-              <P>
-                Também treinei e coloquei em produção um modelo de machine learning que roda no
-                navegador do aluno. Ele usa o histórico de simulados e o comportamento de estudo
-                para prever a nota do próximo simulado, por área. O plano de estudos se ajusta a
-                essa previsão e mostra onde o aluno precisa de mais atenção.
-              </P>
-              <P>
-                <A href="https://nofoco.app.br">nofoco.app.br</A>
-              </P>
-            </Section>
-
-            <Section id="projetos" title="Projetos">
-              <P>
-                Construí um modelo que prevê a demanda de medicamentos em hospitais a partir do
-                histórico de consumo.
-              </P>
-              <p className="type-figure mt-16">30%</p>
-              <P>
-                menos gastos que o baseline de hospitais comuns, em ambiente simulado. Menos estoque
-                parado, menos compra emergencial.
-              </P>
-              <p className="type-body mt-16 max-w-xl text-ink-soft">
-                Trabalho com Python, TypeScript, React, Node.js, PostgreSQL e Google Cloud Run.
-              </p>
-            </Section>
-
-            <Section id="historico" title="Histórico">
-              <History />
-            </Section>
-
-            <Section id="fora-da-tela" title="Fora da tela">
-              <P>
-                Já joguei vários campeonatos de vôlei, toquei violino e treinei tênis de mesa. Hoje
-                o que não larga é o violão, e se for bossa nova, melhor ainda.
-              </P>
-              <div className="mt-16 grid max-w-4xl gap-6 sm:grid-cols-2">
-                <Figure alt="Foto 1" aspect="aspect-[4/5]" className="" />
-                <Figure alt="Foto 2" aspect="aspect-[4/5]" className="" />
-              </div>
-            </Section>
-
-            <Section id="contato" title="Contato">
-              <P>
-                <A href={`mailto:${EMAIL}`}>{EMAIL}</A>
-              </P>
-              <P>
-                <A href="https://github.com/matheuscbrito">GitHub</A>
-                <span className="mx-3 text-ink/20">/</span>
-                <A href="https://www.linkedin.com/in/matheuscbrito">LinkedIn</A>
-              </P>
-            </Section>
-          </div>
-
-          <aside className="hidden lg:block">
-            <div className="sticky top-[var(--rise-lead,0px)] flex h-svh items-center">
-              <SectionNav items={sections} />
-            </div>
-          </aside>
+      <Section id="sobre" label="Sobre">
+        <p className="type-title max-w-3xl text-ink">
+          Acredito que pessoas comuns conseguem construir coisas extraordinárias.
+        </p>
+        <div className="mt-14">
+          <P>
+            E me anima muito o quanto a IA deixa isso mais perto de qualquer um. Quero
+            construir coisas que pessoas de verdade usam e que mudam algo na vida delas.
+          </P>
+          <P>
+            Comecei pelo No Foco, uma plataforma de preparação para o ENEM que construí do
+            zero e que já tem mais de 40 alunos pagantes. Hoje também pesquiso IA para
+            detecção de câncer de mama e de pulmão, e estou cofundando a Synapse.
+          </P>
+          <P>
+            Estudo Ciência da Computação na UFPB. Gosto de times pequenos, no começo, onde dá
+            para construir do zero. Se você está construindo algo assim, me escreve:{" "}
+            <A href={`mailto:${EMAIL}`}>{EMAIL}</A>
+          </P>
         </div>
-      </RisingLayer>
+      </Section>
+
+      <Section id="no-foco" title="No Foco">
+        <P>
+          Cofundei o No Foco e construí a plataforma do zero, do front-end ao back-end. É
+          onde estudantes se preparam para o ENEM.
+        </P>
+        <P>
+          A ideia veio do que funcionou para mim e para meus sócios: um plano claro, alguém
+          acompanhando de perto e um ajuste a cada simulado.
+        </P>
+        <div className="my-24">
+          <NoFocoDemo />
+        </div>
+        <P>
+          Construí o planejamento de estudos, o acompanhamento de desempenho, os streaks, os
+          rankings e as métricas de prova.
+        </P>
+        <p className="type-figure mt-24">40+</p>
+        <P>alunos pagantes nos primeiros 6 meses.</P>
+        <div className="my-24">
+          <PredictionCard />
+        </div>
+        <P>
+          Também treinei e coloquei em produção um modelo de machine learning que roda no
+          navegador do aluno. Ele usa o histórico de simulados e o comportamento de estudo
+          para prever a nota do próximo simulado, por área. O plano de estudos se ajusta a
+          essa previsão e mostra onde o aluno precisa de mais atenção.
+        </P>
+        <P>
+          <A href="https://nofoco.app.br">nofoco.app.br</A>
+        </P>
+      </Section>
+
+      <Section id="projetos" title="Projetos">
+        <P>
+          Construí um modelo que prevê a demanda de medicamentos em hospitais a partir do
+          histórico de consumo.
+        </P>
+        <p className="type-figure mt-16">30%</p>
+        <P>
+          menos gastos que o baseline de hospitais comuns, em ambiente simulado. Menos estoque
+          parado, menos compra emergencial.
+        </P>
+        <p className="type-body mt-16 max-w-xl text-ink-soft">
+          Trabalho com Python, TypeScript, React, Node.js, PostgreSQL e Google Cloud Run.
+        </p>
+      </Section>
+
+      <Section id="historico" title="Histórico">
+        <History />
+      </Section>
+
+      <Section id="fora-da-tela" title="Fora da tela">
+        <P>
+          Já joguei vários campeonatos de vôlei, toquei violino e treinei tênis de mesa. Hoje
+          o que não larga é o violão, e se for bossa nova, melhor ainda.
+        </P>
+        <div className="mt-16 grid max-w-4xl gap-6 sm:grid-cols-2">
+          <Figure alt="Foto 1" aspect="aspect-[4/5]" className="" />
+          <Figure alt="Foto 2" aspect="aspect-[4/5]" className="" />
+        </div>
+      </Section>
+
+      <Section id="contato" title="Contato">
+        <P>
+          <A href={`mailto:${EMAIL}`}>{EMAIL}</A>
+        </P>
+        <P>
+          <A href="https://github.com/matheuscbrito">GitHub</A>
+          <span className="mx-3 text-ink/20">/</span>
+          <A href="https://www.linkedin.com/in/matheuscbrito">LinkedIn</A>
+        </P>
+      </Section>
+
+      {/* The blend sits on this fixed layer, the stacking context that composites over the panels. */}
+      <div className="pointer-events-none fixed inset-y-0 right-16 z-50 hidden w-40 items-center mix-blend-difference lg:flex">
+        <div className="pointer-events-auto">
+          <SectionNav items={sections} />
+        </div>
+      </div>
     </main>
   );
 }

@@ -41,6 +41,21 @@ html {
   color: var(--paper);
 }
 
+/* Section tones. Each panel sets its tokens and paints its own background. */
+[data-tone="light"] {
+  --surface: #ffffff;
+}
+[data-tone="mist"] {
+  --surface: #f1f0ec;
+  --rule: #d9d6cd;
+}
+[data-tone="dark"] {
+  --surface: #0f0f0e;
+  --ink: #f2f0eb;
+  --ink-soft: #a29f97;
+  --rule: #2c2b28;
+}
+
 /*
  * Type scale. Tracking and leading change with size: large type gets tighter
  * tracking and leading, small type slightly looser tracking.
