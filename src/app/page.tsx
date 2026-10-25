@@ -2,6 +2,7 @@ import { AriaPipeline } from "@/components/aria-pipeline";
 import { Hero } from "@/components/hero";
 import { PredictionCard } from "@/components/prediction-card";
 import { NoFocoSchedule } from "@/components/no-foco-schedule";
+import { SynapseDiagnostic, SynapseExercise } from "@/components/synapse-visuals";
 import { RisingLayer, type Tone } from "@/components/rising-layer";
 import { SectionNav, type NavItem } from "@/components/section-nav";
 
@@ -14,6 +15,7 @@ const sections: NavItem[] = [
     children: [
       { id: "no-foco", label: "No Foco" },
       { id: "aria", label: "ARIA" },
+      { id: "synapse", label: "Synapse" },
       { id: "previsao-demanda", label: "Previsão de demanda" },
     ],
   },
@@ -26,6 +28,7 @@ const tones: Record<string, Tone> = {
   sobre: "light",
   "no-foco": "mist",
   aria: "dark",
+  synapse: "light",
   "previsao-demanda": "mist",
   historico: "light",
   contato: "dark",
@@ -247,6 +250,41 @@ export default function Home() {
           A régua compara cada imagem sintética com o exame real em qualidade, textura e realismo
           clínico, e não muda durante a busca. Assim dá para comparar com honestidade quem propõe os
           ajustes, e só o que se sustenta vai alimentar os modelos de câncer de mama e de pulmão.
+        </P>
+      </Section>
+
+      <Section id="synapse" label="Synapse">
+        <p className="type-title max-w-3xl text-ink">Copiar não é aprender.</p>
+        <div className="mt-14">
+          <P>
+            Os melhores alunos sempre aprenderam sozinhos. O segredo não era talento, era método:
+            tentar, errar, entender o erro e tentar de novo. Quanto mais rápido esse ciclo gira,
+            mais rápido se aprende.
+          </P>
+          <P>
+            A AI podia fazer esse ciclo girar para qualquer pessoa. Mas ela costuma entregar a
+            resposta pronta e pula justamente a parte de entender. Por isso cofundei a Synapse:
+            para ensinar a aprender com AI.
+          </P>
+          <P>
+            Ninguém começa do zero. Um diagnóstico que se adapta às respostas descobre o que você
+            já sabe, e a trilha pula o que você já domina.
+          </P>
+        </div>
+        <div className="my-24">
+          <SynapseDiagnostic />
+        </div>
+        <P>
+          Depois, você escreve o código e os testes respondem na hora. Quando erra, a AI aponta
+          onde olhar, mas quem resolve é você. E o que você aprendeu volta em revisões, antes de
+          você esquecer.
+        </P>
+        <div className="my-24">
+          <SynapseExercise />
+        </div>
+        <P>
+          Desenho os algoritmos por trás disso, que ajustam a dificuldade, a ordem dos tópicos e o
+          ritmo de cada aluno.
         </P>
       </Section>
 
