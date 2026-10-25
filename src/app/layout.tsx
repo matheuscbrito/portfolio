@@ -17,7 +17,7 @@ const sans = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Matheus Cavalcanti Brito",
+  title: "Matheus Brito",
   description:
     "Cofundador da No Foco, plataforma de preparação para o ENEM com 40+ alunos pagantes nos primeiros 6 meses. Ciência da Computação na UFPB.",
 };

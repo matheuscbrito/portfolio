@@ -1,5 +1,5 @@
 import { AriaPipeline } from "@/components/aria-pipeline";
-import { GradientBg } from "@/components/gradient-bg";
+import { Hero } from "@/components/hero";
 import { PredictionCard } from "@/components/prediction-card";
 import { NoFocoSchedule } from "@/components/no-foco-schedule";
 import { RisingLayer, type Tone } from "@/components/rising-layer";
@@ -171,13 +171,7 @@ function History() {
 export default function Home() {
   return (
     <main className="flow-root overflow-clip">
-      <section className="relative isolate flex min-h-svh flex-col justify-end overflow-hidden bg-[#D6E6F5] px-6 pb-16 sm:px-12 sm:pb-24">
-        <GradientBg />
-        <div className="relative z-10 max-w-6xl">
-          <h1 className="type-display">Matheus Cavalcanti Brito</h1>
-          <p className="type-lead mt-5 text-ink-soft">Engenharia, produto e design</p>
-        </div>
-      </section>
+      <Hero />
 
       <Section id="sobre" label="Sobre">
         <p className="type-title max-w-3xl text-ink">
@@ -185,7 +179,7 @@ export default function Home() {
         </p>
         <div className="mt-14">
           <P>
-            E estou fazendo isso a partir de AI. Comecei fundando a No Foco, uma
+            E estou fazendo isso com AI. Comecei fundando a No Foco, uma
             assessoria pra Enem que já impactou mais de 40 pessoas e 6 assessores pelo Brasil.
             Agora tô construindo AI pra Medicina, ajudando a identificar risco de câncer de mama e de pulmão.
           </P>
