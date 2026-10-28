@@ -7,50 +7,84 @@
  * the adjustments; rows have a fixed height so that line can meet both ends at their middle.
  */
 
+import type { Lang } from "@/lib/lang";
+
 type Kind = "fixed" | "loop" | "judge";
 
-const kinds: Record<Kind, { label: string; box: string; swatch: string }> = {
+const kinds: Record<Kind, { box: string; swatch: string }> = {
   fixed: {
-    label: "fixo",
     box: "border border-dashed border-ink-soft/45",
     swatch: "border border-dashed border-ink-soft/60",
   },
   loop: {
-    label: "ciclo",
     box: "bg-ink/[0.07] ring-1 ring-inset ring-ink/10",
     swatch: "bg-ink/20",
   },
   // The light blue of the hero gradient.
   judge: {
-    label: "avaliador",
     box: "bg-[#8fbceb]/12 ring-1 ring-inset ring-[#8fbceb]/40",
     swatch: "bg-[#8fbceb]/70",
   },
 };
 
-const steps: { title: string; detail: string; kind: Kind; wide?: boolean }[] = [
-  { title: "Gerador", detail: "treinado uma vez, nunca alterado", kind: "fixed" },
-  { title: "Exames reais", detail: "a mesma base em toda rodada", kind: "fixed" },
-  { title: "Ajuste", detail: "como as imagens são geradas", kind: "loop" },
-  {
-    title: "Geração",
-    detail: "a AI cria a versão sintética de cada exame",
-    kind: "loop",
-    wide: true,
+type Step = { title: string; detail: string; kind: Kind; wide?: boolean };
+
+const copy: Record<Lang, { kinds: Record<Kind, string>; steps: Step[]; caption: string }> = {
+  pt: {
+    kinds: { fixed: "fixo", loop: "ciclo", judge: "avaliador" },
+    steps: [
+      { title: "Gerador", detail: "treinado uma vez, nunca alterado", kind: "fixed" },
+      { title: "Exames reais", detail: "a mesma base em toda rodada", kind: "fixed" },
+      { title: "Ajuste", detail: "como as imagens são geradas", kind: "loop" },
+      {
+        title: "Geração",
+        detail: "a AI cria a versão sintética de cada exame",
+        kind: "loop",
+        wide: true,
+      },
+      {
+        title: "Avaliação",
+        detail: "compara com o exame real: qualidade, textura e realismo",
+        kind: "judge",
+        wide: true,
+      },
+      {
+        title: "Decisão",
+        detail: "um agente de AI ou um otimizador guarda o melhor e propõe o próximo ajuste",
+        kind: "loop",
+        wide: true,
+      },
+    ],
+    caption: "Cada decisão leva ao próximo ajuste, e o ciclo recomeça.",
   },
-  {
-    title: "Avaliação",
-    detail: "compara com o exame real: qualidade, textura e realismo",
-    kind: "judge",
-    wide: true,
+  en: {
+    kinds: { fixed: "fixed", loop: "loop", judge: "judge" },
+    steps: [
+      { title: "Generator", detail: "trained once, never changed", kind: "fixed" },
+      { title: "Real exams", detail: "the same set every round", kind: "fixed" },
+      { title: "Adjustment", detail: "how the images are generated", kind: "loop" },
+      {
+        title: "Generation",
+        detail: "the AI creates a synthetic version of each exam",
+        kind: "loop",
+        wide: true,
+      },
+      {
+        title: "Evaluation",
+        detail: "compares it with the real exam: quality, texture and realism",
+        kind: "judge",
+        wide: true,
+      },
+      {
+        title: "Decision",
+        detail: "an AI agent or an optimizer keeps the best and proposes the next adjustment",
+        kind: "loop",
+        wide: true,
+      },
+    ],
+    caption: "Each decision leads to the next adjustment, and the loop starts over.",
   },
-  {
-    title: "Decisão",
-    detail: "um agente de AI ou um otimizador guarda o melhor e propõe o próximo ajuste",
-    kind: "loop",
-    wide: true,
-  },
-];
+};
 
 function Arrow() {
   return (
@@ -69,14 +103,15 @@ function Arrow() {
   );
 }
 
-export function AriaPipeline() {
+export function AriaPipeline({ lang }: { lang: Lang }) {
+  const { kinds: labels, steps, caption } = copy[lang];
   return (
     <figure>
       <ul className="type-small flex flex-wrap gap-x-6 gap-y-2 text-ink-soft">
-        {Object.values(kinds).map(({ label, swatch }) => (
-          <li key={label} className="flex items-center gap-2">
-            <span aria-hidden className={`size-3 rounded-[0.25rem] ${swatch}`} />
-            {label}
+        {(Object.keys(kinds) as Kind[]).map((kind) => (
+          <li key={kind} className="flex items-center gap-2">
+            <span aria-hidden className={`size-3 rounded-[0.25rem] ${kinds[kind].swatch}`} />
+            {labels[kind]}
           </li>
         ))}
       </ul>
@@ -115,7 +150,7 @@ export function AriaPipeline() {
       </div>
 
       <figcaption className="type-small mt-8 text-ink-soft">
-        Cada decisão leva ao próximo ajuste, e o ciclo recomeça.
+        {caption}
       </figcaption>
     </figure>
   );

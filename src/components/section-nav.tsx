@@ -20,7 +20,7 @@ const links = (items: NavItem[]) =>
  * on light panels and light on dark ones, pixel by pixel: as a panel's edge rises through the
  * nav, the letters split exactly at the edge.
  */
-export function SectionNav({ items }: { items: NavItem[] }) {
+export function SectionNav({ items, label }: { items: NavItem[]; label: string }) {
   const active = useActiveSection(links(items).map(({ id }) => id));
   const reduced = useReducedMotion();
 
@@ -46,7 +46,7 @@ export function SectionNav({ items }: { items: NavItem[] }) {
 
   return (
     <nav
-      aria-label="Seções"
+      aria-label={label}
       className={`text-white transition-opacity duration-700 ${
         active ? "opacity-100" : "pointer-events-none opacity-0"
       }`}

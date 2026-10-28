@@ -1,4 +1,5 @@
 import { TrendingUp } from "lucide-react";
+import type { Lang } from "@/lib/lang";
 
 /**
  * Horizontal rebuild of the No Foco "Próximo simulado" screen: the in-browser model's
@@ -6,7 +7,7 @@ import { TrendingUp } from "lucide-react";
  */
 
 type Area = {
-  name: string;
+  name: Record<Lang, string>;
   color: string;
   /** Past mock exam scores, oldest first; the last one is "Última". */
   history: number[];
@@ -14,14 +15,35 @@ type Area = {
 };
 
 const areas: Area[] = [
-  { name: "Linguagens", color: "#64d2ff", history: [29, 30, 29.6, 31, 30.6, 32], predicted: 33.1 },
-  { name: "Humanas", color: "#ff9f0a", history: [32.5, 32.2, 33.2, 33.5, 33.2, 34], predicted: 34.6 },
-  { name: "Natureza", color: "#30d158", history: [21.5, 22.2, 21.8, 23.2, 24, 25], predicted: 26.8 },
-  { name: "Matemática", color: "#bf5af2", history: [25.2, 25.8, 25.5, 26.9, 27.3, 29], predicted: 30.7 },
+  { name: { pt: "Linguagens", en: "Languages" }, color: "#64d2ff", history: [29, 30, 29.6, 31, 30.6, 32], predicted: 33.1 },
+  { name: { pt: "Humanas", en: "Humanities" }, color: "#ff9f0a", history: [32.5, 32.2, 33.2, 33.5, 33.2, 34], predicted: 34.6 },
+  { name: { pt: "Natureza", en: "Sciences" }, color: "#30d158", history: [21.5, 22.2, 21.8, 23.2, 24, 25], predicted: 26.8 },
+  { name: { pt: "Matemática", en: "Math" }, color: "#bf5af2", history: [25.2, 25.8, 25.5, 26.9, 27.3, 29], predicted: 30.7 },
 ];
 
 const total = 125;
 const totalDelta = 5.2;
+
+const copy = {
+  pt: {
+    title: "Próximo simulado",
+    total: "Total previsto",
+    vsLast: "vs. último",
+    confidence: "Confiança média",
+    last: "Última",
+    label: (scores: string) => `Previsão do próximo simulado: ${total} de 180 no total, ${scores}.`,
+    number: (n: number) => n.toString().replace(".", ","),
+  },
+  en: {
+    title: "Next mock exam",
+    total: "Predicted total",
+    vsLast: "vs. last",
+    confidence: "Medium confidence",
+    last: "Last",
+    label: (scores: string) => `Forecast for the next mock exam: ${total} of 180 in total, ${scores}.`,
+    number: (n: number) => n.toString(),
+  },
+};
 
 function Sparkline({ history, predicted, color }: Omit<Area, "name">) {
   const width = 200;
@@ -55,7 +77,9 @@ function Sparkline({ history, predicted, color }: Omit<Area, "name">) {
   );
 }
 
-function Delta({ value, dark = false }: { value: number; dark?: boolean }) {
+/** `vsLast` labels the dark variant, which compares with the previous exam. */
+function Delta({ value, vsLast }: { value: number; vsLast?: string }) {
+  const dark = Boolean(vsLast);
   return (
     <span
       className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[0.8125rem] font-semibold tabular-nums ${
@@ -63,26 +87,25 @@ function Delta({ value, dark = false }: { value: number; dark?: boolean }) {
       }`}
     >
       <TrendingUp size={14} strokeWidth={2.25} />+{value.toFixed(1)}
-      {dark && " vs. último"}
+      {vsLast && ` ${vsLast}`}
     </span>
   );
 }
 
-export function PredictionCard() {
+export function PredictionCard({ lang }: { lang: Lang }) {
+  const t = copy[lang];
   return (
     <div
       role="img"
-      aria-label={`Previsão do próximo simulado: ${total} de 180 no total, ${areas
-        .map((a) => `${a.name} ${a.predicted.toString().replace(".", ",")}`)
-        .join(", ")}.`}
+      aria-label={t.label(areas.map((a) => `${a.name[lang]} ${t.number(a.predicted)}`).join(", "))}
       className="rounded-[2rem] bg-[#faf9f6] p-3 shadow-[0_1px_2px_rgba(26,25,21,0.06),0_30px_60px_-30px_rgba(26,25,21,0.25)] ring-1 ring-black/[0.04] sm:p-4"
     >
       <p className="px-5 pt-5 pb-6 font-serif text-[clamp(1.75rem,3vw,2.5rem)] leading-none tracking-[-0.02em] sm:px-6">
-        Próximo simulado
+        {t.title}
       </p>
       <div className="grid gap-3 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,2fr)] sm:gap-4">
         <div className="flex flex-col justify-between gap-8 rounded-[1.5rem] bg-[#1d1a16] p-6 text-white">
-          <p className="text-[0.9375rem] text-white/70">Total previsto</p>
+          <p className="text-[0.9375rem] text-white/70">{t.total}</p>
           <div>
             <p className="flex items-baseline gap-2">
               <span className="font-serif text-[clamp(3.5rem,6vw,4.75rem)] leading-none tracking-[-0.03em]">
@@ -91,10 +114,10 @@ export function PredictionCard() {
               <span className="text-lg text-white/50">/ 180</span>
             </p>
             <div className="mt-6 flex flex-wrap gap-2">
-              <Delta value={totalDelta} dark />
+              <Delta value={totalDelta} vsLast={t.vsLast} />
               <span className="inline-flex items-center gap-2 rounded-full border border-white/20 px-3 py-1 text-[0.8125rem] font-semibold">
                 <span className="size-2 rounded-full bg-[#30d158]" />
-                Confiança média
+                {t.confidence}
               </span>
             </div>
           </div>
@@ -102,11 +125,11 @@ export function PredictionCard() {
 
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
           {areas.map(({ name, color, history, predicted }) => (
-            <div key={name} className="rounded-[1.5rem] bg-[#e8e3dd] p-5 sm:p-6">
+            <div key={name.pt} className="rounded-[1.5rem] bg-[#e8e3dd] p-5 sm:p-6">
               <div className="flex items-center justify-between gap-3">
                 <span className="flex items-center gap-2.5 text-[0.9375rem] font-semibold">
                   <span className="size-2.5 rounded-full" style={{ background: color }} />
-                  {name}
+                  {name[lang]}
                 </span>
                 <Delta value={predicted - history[history.length - 1]} />
               </div>
@@ -118,7 +141,7 @@ export function PredictionCard() {
                   <span className="text-ink/45">/ 45</span>
                 </p>
                 <span className="text-[0.9375rem] text-ink/55">
-                  Última {history[history.length - 1]}
+                  {t.last} {history[history.length - 1]}
                 </span>
               </div>
               <Sparkline history={history} predicted={predicted} color={color} />
