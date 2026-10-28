@@ -36,9 +36,9 @@ html {
   text-rendering: optimizeLegibility;
 }
 
+/* SelectionHighlight draws the selection as rounded blue spans; the native one only stays out of the way. */
 ::selection {
-  background: var(--accent);
-  color: var(--paper);
+  background: transparent;
 }
 
 /* Section tones. Each panel sets its tokens and paints its own background. */

@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Newsreader } from "next/font/google";
 import localFont from "next/font/local";
+import { SelectionHighlight } from "@/components/selection-highlight";
 import "./globals.css";
 
 // Senna Display covers A–Z, a–z, 0–9, Portuguese accents and . , only; the
@@ -43,7 +44,10 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="pt-BR" className={`${display.variable} ${serif.variable} ${sans.variable} antialiased`}>
-      <body>{children}</body>
+      <body>
+        {children}
+        <SelectionHighlight />
+      </body>
     </html>
   );
 }
