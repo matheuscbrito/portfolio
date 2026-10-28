@@ -201,13 +201,17 @@ export default function Home() {
 
       <Section id="sobre" label="Sobre">
         <p className="type-title max-w-3xl text-ink">
-          Acredito que pessoas comuns podem construir coisas extraordinárias.
+          Acredito que construir coisas extraordinárias não deveria depender de onde você começa.
         </p>
         <div className="mt-14">
           <P>
-            E estou fazendo isso com AI. Comecei fundando a No Foco, uma
-            assessoria pra Enem que já impactou mais de 40 pessoas e 6 assessores pelo Brasil.
-            Agora tô construindo AI pra Medicina, ajudando a identificar risco de câncer de mama e de pulmão.
+            É o que tento fazer com AI. Comecei pela educação: cofundei a No Foco, uma assessoria
+            para o ENEM que já acompanhou mais de 40 alunos pelo Brasil com 6 assessores, e a
+            Synapse, que ensina programação sem entregar a resposta pronta.
+          </P>
+          <P>
+            Agora também levo AI para a medicina. Pesquiso detecção de câncer de mama e de pulmão
+            com a University of Pennsylvania e a University of Bristol.
           </P>
           <P>
             Estudo Ciência da Computação na UFPB e toco bossa nova no violão.
