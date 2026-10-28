@@ -21,7 +21,7 @@
   --color-night: var(--night);
 
   /* Serif only for titles and display numbers; everything else is sans. */
-  --font-serif: var(--font-newsreader), Georgia, serif;
+  --font-serif: var(--font-senna), var(--font-newsreader), Georgia, serif;
   --font-sans: var(--font-inter), system-ui, sans-serif;
 
   --ease-out-slow: var(--ease-out-slow);
@@ -61,21 +61,21 @@ html {
  * tracking and leading, small type slightly looser tracking.
  */
 @utility type-display {
-  font-family: var(--font-newsreader), Georgia, serif;
+  font-family: var(--font-senna), var(--font-newsreader), Georgia, serif;
   font-size: clamp(3rem, 6vw, 6rem);
   line-height: 1;
   letter-spacing: -0.025em;
 }
 
 @utility type-title {
-  font-family: var(--font-newsreader), Georgia, serif;
+  font-family: var(--font-senna), var(--font-newsreader), Georgia, serif;
   font-size: clamp(2.5rem, 5vw, 3.75rem);
   line-height: 1.05;
   letter-spacing: -0.02em;
 }
 
 @utility type-figure {
-  font-family: var(--font-newsreader), Georgia, serif;
+  font-family: var(--font-senna), var(--font-newsreader), Georgia, serif;
   font-size: clamp(5rem, 14vw, 12rem);
   line-height: 0.9;
   letter-spacing: -0.035em;
