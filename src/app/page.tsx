@@ -4,12 +4,14 @@ import { PredictionCard } from "@/components/prediction-card";
 import { NoFocoSchedule } from "@/components/no-foco-schedule";
 import { SynapseDiagnostic, SynapseExercise } from "@/components/synapse-visuals";
 import { RisingLayer, type Tone } from "@/components/rising-layer";
+import { ScrollLink } from "@/components/scroll-link";
 import { SectionNav, type NavItem } from "@/components/section-nav";
 
 const EMAIL = "matheus.cavalcanti006@gmail.com";
 
 const sections: NavItem[] = [
   { id: "sobre", label: "Sobre" },
+  { id: "historico", label: "Histórico" },
   {
     label: "Projetos",
     children: [
@@ -19,32 +21,33 @@ const sections: NavItem[] = [
       { id: "previsao-demanda", label: "Previsão de demanda" },
     ],
   },
-  { id: "historico", label: "Histórico" },
   { id: "contato", label: "Contato" },
 ];
 
 /** Each section is a panel in its own tone that rises over the previous one. */
 const tones: Record<string, Tone> = {
   sobre: "light",
-  "no-foco": "mist",
+  historico: "dark",
+  "no-foco": "light",
   aria: "dark",
   synapse: "light",
   "previsao-demanda": "mist",
-  historico: "light",
   contato: "dark",
 };
 
-/** What I did over time, newest first. */
-const history: { year: string; items: { what: string; text: string }[] }[] = [
+/** What I did over time, newest first. `section` links an item to the project's section below. */
+const history: { year: string; items: { what: string; text: string; section?: string }[] }[] = [
   {
     year: "2026",
     items: [
       {
         what: "Synapse",
+        section: "synapse",
         text: "Cofundei uma plataforma para ensinar programação na era da AI. Desenho os algoritmos que ajustam dificuldade, ordem dos tópicos e ritmo de cada aluno em tempo real.",
       },
       {
         what: "ARIA",
+        section: "aria",
         text: "Comecei a pesquisar AI para detecção de câncer de mama e de pulmão, com a University of Pennsylvania e a University of Bristol. Construo o framework que avalia mamografias sintéticas antes de elas treinarem modelos de diagnóstico.",
       },
       {
@@ -57,6 +60,7 @@ const history: { year: string; items: { what: string; text: string }[] }[] = [
       },
       {
         what: "No Foco",
+        section: "no-foco",
         text: "Cofundei e construí a plataforma do zero. 40+ alunos pagantes nos primeiros 6 meses.",
       },
     ],
@@ -158,9 +162,28 @@ function History() {
         <div key={year} className="grid grid-cols-[4.5rem_1fr] gap-6 py-8">
           <dt className="text-ink/40 tabular-nums">{year}</dt>
           <dd className="space-y-6">
-            {items.map(({ what, text }) => (
+            {items.map(({ what, text, section }) => (
               <div key={what}>
-                <p className="text-ink">{what}</p>
+                <p className="text-ink">
+                  {section ? (
+                    <ScrollLink
+                      to={section}
+                      className="group inline-flex items-baseline gap-1.5 active:opacity-60"
+                    >
+                      <span className="underline decoration-ink/25 underline-offset-4 transition-colors group-hover:decoration-ink">
+                        {what}
+                      </span>
+                      <span
+                        aria-hidden="true"
+                        className="text-ink/40 transition-transform group-hover:translate-y-0.5"
+                      >
+                        ↓
+                      </span>
+                    </ScrollLink>
+                  ) : (
+                    what
+                  )}
+                </p>
                 <p className="mt-1 text-ink-soft">{text}</p>
               </div>
             ))}
@@ -192,6 +215,10 @@ export default function Home() {
           <P>Se quiser conversar, me chama:</P>
           <Links className="mt-4" />
         </div>
+      </Section>
+
+      <Section id="historico" title="Histórico">
+        <History />
       </Section>
 
       <Section id="no-foco" label="No Foco">
@@ -301,10 +328,6 @@ export default function Home() {
         <p className="type-body mt-16 max-w-xl text-ink-soft">
           Trabalho com Python, TypeScript, React, Node.js, PostgreSQL e Google Cloud Run.
         </p>
-      </Section>
-
-      <Section id="historico" title="Histórico">
-        <History />
       </Section>
 
       <Section id="contato" title="Contato">
