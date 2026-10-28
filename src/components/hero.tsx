@@ -43,7 +43,7 @@ export function Hero() {
       </a>
 
       <motion.div className="relative z-10" style={reduced ? undefined : { y, opacity }}>
-        <h1 className="animate-rise-in type-display text-balance">Matheus Brito</h1>
+        <h1 className="animate-rise-in type-display font-bold text-balance">Matheus Brito</h1>
         <p className="animate-rise-in type-subtitle mt-4 text-ink/75 [animation-delay:250ms] sm:mt-6">
           Ciência da Computação na UFPB
         </p>
