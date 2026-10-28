@@ -3,10 +3,14 @@ import { Inter, Newsreader } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 
-// Senna Display only covers A–Z, a–z, 0–9 and basic punctuation; the stacks in
-// globals.css fall back to Newsreader for accents and anything else.
+// Senna Display covers A–Z, a–z, 0–9, Portuguese accents and . , only; the
+// stacks in globals.css fall back to Newsreader for anything else. Headings
+// ask for weight 400, which resolves to Medium; font-bold picks Bold.
 const display = localFont({
-  src: "./fonts/SennaDisplay-Regular.woff2",
+  src: [
+    { path: "./fonts/SennaDisplay-Medium.woff2", weight: "500" },
+    { path: "./fonts/SennaDisplay-Bold.woff2", weight: "700" },
+  ],
   variable: "--font-senna",
   display: "swap",
 });
